@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+    import org.springframework.stereotype.Service;
 
 import com.dance.dance.entity.Student;
 import com.dance.dance.repository.StudentRepository;
@@ -34,6 +34,9 @@ public class StudentService {
     public List<Student> findByName(String name){
         return studentrepo.findByName(name);
     }
+    public List<Student> findByEmail(String email){
+        return studentrepo.findByEmail(email);
+    }
 
     public Page<Student> getPage(int page,int size){
         Pageable pageable = PageRequest.of(page,size);
@@ -44,13 +47,13 @@ public class StudentService {
         return studentrepo.findAll(Sort.by(Sort.Direction.ASC,"name"));
     }
 
-    public List<Student> findByEmail(String email){
-        return studentrepo.findByEmail(email);
-    }
 
     public void deleteStudent(Long id){
         if(studentrepo.existsById(id)){
             studentrepo.deleteById(id);
+        }
+        else{
+            throw new EntityNotFoundException("Student not found");
         }
     }
     
